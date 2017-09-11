@@ -69,13 +69,43 @@ function checa_login($usuario,$senha){
 
 
 	if($result->num_rows>0){
-		
-		echo '<script>window.location.href = "../public/home.html";</script>';
+		return 0;
+		// echo '<script>window.location.href = "../public/home.html";</script>';
 	}else{
-		echo "Login ou Senha Incorreto";
-		echo "</br><a href=../public/index.html> REALIZAR LOGIN NOVAMENTE </a>";
+		return 1;
+		// echo "Login ou Senha Incorreto";
+		// echo "</br><a href=../public/index.html> REALIZAR LOGIN NOVAMENTE </a>";
 
 	}
+
+
+}
+
+
+function adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$projeto_metricas){
+	
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "INSERT INTO Projeto (Nome, Descricao, Gestor, Linguagem, Data_Inicio, Data_Fim, Metricas)
+	VALUES ('$projeto_nome','projeto_desc', 1 , '$projeto_linguagem', '$projeto_data_inicio', '$projeto_data_fim', '$projeto_metricas')";
+
+		if ($conn->query($sql) === TRUE) {
+		} else {
+		    echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+
 
 
 }
