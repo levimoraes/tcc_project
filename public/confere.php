@@ -17,8 +17,7 @@ if(checa_login($usrname,$password)==0){
 	//echo '<script>window.location.href = "../public/home.php";</script>';
 }
 	else{
-		echo "Login ou Senha Incorreto";
-		echo "</br><a href=../public/index.html> REALIZAR LOGIN NOVAMENTE </a>";
+		header('location:../public/index2.html');
 	}
 
 

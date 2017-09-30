@@ -7,6 +7,7 @@ $projeto_desc = $_POST["projeto_desc"];
 $projeto_data_inicio = $_POST["projeto_data_inicio"];
 $projeto_data_fim = $_POST["projeto_data_fim"];
 $projeto_linguagem = $_POST["linguagem"];
+$projeto_widget = $_POST["widget"];
 $projeto_metricas[] = $_POST["metrica"];
 $tipo = $_POST['metrica']; 
 $valores = ''; 
@@ -17,7 +18,7 @@ $valores .= $v .= ",";
 
 echo "TROCOU";
 
-adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$valores);
+adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$valores,$projeto_widget);
 
 echo '<script>window.location.href = "home.php";</script>';
 

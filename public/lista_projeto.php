@@ -41,7 +41,7 @@ include '../config/db_config.php';
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Bem Vindo Levi</span></a>
+              <a href="home.php" class="site_title"><i class="fa fa-paw"></i> <span>Bem Vindo Levi</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -258,32 +258,6 @@ include '../config/db_config.php';
                         $result = pega_projetos(1);
                         echo $result;
                       ?>
-                        <!-- <tr>
-                          <td>#</td>
-                          <td>
-                            <a>Pesamakini Backend UI</a>
-                            <br />
-                            <small>Created 01.01.2015</small>
-                          </td>
-                          
-                          <td class="project_progress">
-                            <div class="progress progress_sm">
-                              <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
-                            </div>
-                            <small>57% Complete</small>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-success btn-xs">Success</button>
-                          </td>
-                          <td>
-                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
-                          </td>
-                        </tr> -->
-                        
-                        
-                        
                         
                       </tbody>
                     </table>
@@ -315,6 +289,13 @@ include '../config/db_config.php';
       <div class="clearfix"></div>
       <div id="notif-group" class="tabbed_notifications"></div>
     </div>
+
+
+    <script>
+function myFunction() {
+    alert("Deletado com Sucesso");
+}
+</script>
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>

@@ -1,4 +1,7 @@
 <?php  
+
+include '../config/db_config.php';
+
 session_start();
 if((!isset ($_SESSION['login']) == true) and (!isset ($_SESSION['senha']) == true))
 {
@@ -48,7 +51,7 @@ $logado = $_SESSION['login'];
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Bem Vindo Levi</span></a>
+              <a href="home.php" class="site_title"><i class="fa fa-paw"></i> <span>Bem Vindo Levi</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -243,110 +246,16 @@ $logado = $_SESSION['login'];
               </div>
             </div>
 
-            <div class="col-md-3 col-xs-12 widget widget_tally_box">
-                        <div class="x_panel fixed_height_390">
-                          <div class="x_title">
-                            <h2>Projeto 1</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                              </li>
-                              <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                  <li><a href="#">Settings 1</a>
-                                  </li>
-                                  <li><a href="#">Settings 2</a>
-                                  </li>
-                                </ul>
-                              </li>
-                              <li><a class="close-link"><i class="fa fa-close"></i></a>
-                              </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="x_content">
+            <?php 
 
-                            <div style="text-align: center; margin-bottom: 17px">
-                              <ul class="verticle_bars list-inline">
-                                <li>
-                                  <div class="progress vertical progress_wide bottom">
-                                    <div class="progress-bar progress-bar-dark" role="progressbar" data-transitiongoal="65"></div>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div class="progress vertical progress_wide bottom">
-                                    <div class="progress-bar progress-bar-gray" role="progressbar" data-transitiongoal="85"></div>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div class="progress vertical progress_wide bottom">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" data-transitiongoal="45"></div>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div class="progress vertical progress_wide bottom">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" data-transitiongoal="75"></div>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                            <div class="divider"></div>
+            cria_widget(1);
 
-                            <ul class="legend list-unstyled">
-                              <li>
-                                <p>
-                                  <span class="icon"><i class="fa fa-square dark"></i></span> <span class="name">LOC</span>
-                                </p>
-                              </li>
-                              <li>
-                                <p>
-                                  <span class="icon"><i class="fa fa-square grey"></i></span> <span class="name">WMC</span>
-                                </p>
-                              </li>
-                              <li>
-                                <p>
-                                  <span class="icon"><i class="fa fa-square blue"></i></span> <span class="name">IRA</span>
-                                </p>
-                              </li>
-                              <li>
-                                <p>
-                                  <span class="icon"><i class="fa fa-square green"></i></span> <span class="name">MOC</span>
-                                </p>
-                              </li>
-                            </ul>
+            $myfile = fopen("../metricas.txt", "r") or die("Unable to open file!");
+            echo fread($myfile,filesize("metricas.txt"));
+            fclose($myfile);
 
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-3 col-xs-12 widget widget_tally_box">
-                        <div class="x_panel ui-ribbon-container fixed_height_390">
-                          <div class="ui-ribbon-wrapper">
-                          
-                          </div>
-                          <div class="x_title">
-                            <h2>Projeto 2</h2>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="x_content">
-
-                            <div style="text-align: center; margin-bottom: 17px">
-                              <span class="chart" data-percent="86">
-                                <span class="percent"></span>
-                              </span>
-                            </div>
-
-                            <h3 class="name_title">Projeto 2</h3>
-                            <p>Projeto de Energia eólica</p>
-
-                            <div class="divider"></div>
-
-                            <p>O projeto atualmente está com 1346 linhas e faltam 2 semanas para o deadline</p>
-
-                          </div>
-                        </div>
-                      </div>
-                      
+            ?>
+                
 
 
           <div class="clearfix"></div>
