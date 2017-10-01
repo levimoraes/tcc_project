@@ -250,10 +250,6 @@ $logado = $_SESSION['login'];
 
             cria_widget(1);
 
-            $myfile = fopen("../metricas.txt", "r") or die("Unable to open file!");
-            echo fread($myfile,filesize("metricas.txt"));
-            fclose($myfile);
-
             ?>
                 
 
