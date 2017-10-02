@@ -100,6 +100,138 @@ function pega_metricas_comentario($id){
 	
 }
 
+function pega_metricas_issues($id){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'numero_issues'";
+
+	$result = $conn->query($sql);
+
+	$numero_issues = array();
+	$numero_issues_version = array();
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($numero_issues, $valor);
+			array_push($numero_issues_version, $versao);
+				
+			}
+
+			$c =  array_combine($numero_issues_version, $numero_issues);
+			criar_grafico(2,$numero_issues,$numero_issues_version);
+
+		}
+
+	
+}
+
+function pega_metricas_duplicacao($id){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'duplicacao'";
+
+	$result = $conn->query($sql);
+
+	$LOC = array();
+	$LOC_version = array();
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($LOC, $valor);
+			array_push($LOC_version, $versao);
+				
+			}
+
+			$c =  array_combine($LOC_version, $LOC);
+			criar_grafico(2,$LOC,$LOC_version);
+
+		}
+
+	
+}
+
+function pega_metricas_code_smells($id){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'code_smells'";
+
+	$result = $conn->query($sql);
+
+	$LOC = array();
+	$LOC_version = array();
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($LOC, $valor);
+			array_push($LOC_version, $versao);
+				
+			}
+
+			$c =  array_combine($LOC_version, $LOC);
+			criar_grafico(2,$LOC,$LOC_version);
+
+		}
+
+	
+}
+
 function criar_grafico($opcao,$valor,$versao){
 	
 	//GRAFICO BARRA
