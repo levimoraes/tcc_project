@@ -1,19 +1,3 @@
-<?php  
-
-include '../config/db_config.php';
-
-session_start();
-if((!isset ($_SESSION['login']) == true) and (!isset ($_SESSION['senha']) == true))
-{
-  unset($_SESSION['login']);
-  unset($_SESSION['senha']);
-  header('location:index.php');
-  }
-
-$logado = $_SESSION['login'];
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,7 +7,7 @@ $logado = $_SESSION['login'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?php echo $logado; ?> </title>
+    <title>Dashboard de Qualidade </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,6 +15,9 @@ $logado = $_SESSION['login'];
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- FullCalendar -->
+    <link href="../vendors/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="../vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
   
@@ -70,8 +57,8 @@ $logado = $_SESSION['login'];
 
             <br />
 
-          <!-- sidebar menu -->
-          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <!-- SIDE BAR MENU  -->
+           <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
@@ -81,7 +68,8 @@ $logado = $_SESSION['login'];
                       <li><a href="lista_projeto.php">Listar Projetos</a></li>
                     </ul>
                   </li>
-                  
+                  <li><a href="calendar.php"  ><i class="glyphicon glyphicon-calendar"></i> Calendario </span></a>
+                </ul>  
               </div>
 
             </div> 
@@ -117,7 +105,7 @@ $logado = $_SESSION['login'];
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="images/img.jpg" alt="">Levi Moraes
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -205,18 +193,31 @@ $logado = $_SESSION['login'];
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="x_content">
+          <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Form Elements</h3>
+                <h3>Calendar <small>Click to add/edit events</small></h3>
               </div>
 
-              <div class="clearfix"></div>
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-              <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Form Basic Elements <small>different form elements</small></h2>
+                    <h2>Calendar Events <small>Sessions</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -235,140 +236,9 @@ $logado = $_SESSION['login'];
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
-                    <form class="form-horizontal form-label-left" action="adiciona_projeto.php" method="post">
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nome do Projeto</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" class="form-control" placeholder="Qual o nome do Projeto ?" id="nome_projeto" name="nome_projeto">
-                        </div>
-                      </div>
+                    <div id='calendar'></div>
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Descrição do Projeto <span class="required"></span>
-                        </label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                          <textarea class="form-control" rows="3" name="projeto_desc" placeholder='Diga um pouco sobre o projeto'></textarea>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Data de Início <span class="required"></span>
-                        </label>
-                        <div class='input-group date' id='myDatepicker2'>
-                          <input type='text' name="projeto_data_inicio" class="form-control" />
-                          <span class="input-group-addon" name="projeto_data_inicio" >
-                           <span class="glyphicon glyphicon-calendar" name="projeto_data_inicio"></span>
-                         </span>
-                       </div>
-                     </div>
-                     <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Data de Fim <span class="required"></span>
-                      </label>
-                      <div class='input-group date' id='myDatepicker3'>
-                        <input type='text' name="projeto_data_fim" class="form-control" />
-                        <span class="input-group-addon">
-                         <span class="glyphicon glyphicon-calendar"></span>
-                       </span>
-                     </div>
-                   </div>
-
-                   <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Linguagem</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <select class="form-control" name="linguagem" id="linguagem">
-                        <option value="java">JAVA</option>
-                        <option value="php">PHP</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
-                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">Métricas</label>
-
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <div class="checkbox">
-                        <p style="padding: 5px;">
-                          <input type="checkbox" name="metrica[]" id="LOC" value="loc" class="flat" /> LOC
-                          <br />
-
-                          <input type="checkbox" name="metrica[]" id="MOC" value="moc" class="flat" /> MOC
-                          <br />
-
-                          <input type="checkbox" name="metrica[]" id="WMC" value="wmc" class="flat" /> WMC
-                          <br />
-
-                          <input type="checkbox" name="metrica[]" id="IRA" value="ira" class="flat" /> IRA
-                          <br />
-                          <p>
-                          </div> 
-                        </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> URL GitHub  <span class="required"></span>
-                        </label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                          <textarea class="form-control" rows="3" name="url_gitHub" placeholder='Digite a url da página GitHub do Projeto'></textarea>
-                        </div>
-                      </div>
-                      
-                      <div class="clearfix"></div>
-
-                      <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo de Widget</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <select class="form-control" name="widget" id="widget">
-                        <option value=1>Widget 1</option>
-                        <option value=2>Widget 2</option>
-                        <option value=3>Widget 3</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="clearfix"></div>
-
-                      <div class="col-md-3 col-sm-3 col-xs-12">
-                          <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="images/widget_1.png" alt="image" />
-                            
-                          </div>
-                          <div class="caption">
-                            <p>Widget 1</p>
-                          </div>
-                      </div>
-
-                      <div class="col-md-3 col-sm-3 col-xs-12">
-                          <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="images/widget_2.png" alt="image" />
-                            
-                          </div>
-                          <div class="caption">
-                            <p>Widget 2</p>
-                          </div>
-                      </div>
-
-                      <div class="col-md-3 col-sm-3 col-xs-12">
-                          <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="images/widget_3.png" alt="image" />
-                            
-                          </div>
-                          <div class="caption">
-                            <p>Widget 3</p>
-                          </div>
-                      </div>
-
-                      </div>
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                          <button type="button" class="btn btn-primary">Cancel</button>
-                          <button type="reset" class="btn btn-primary">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                      </div>
-
-                    </form>
                   </div>
                 </div>
               </div>
@@ -388,6 +258,80 @@ $logado = $_SESSION['login'];
       </div>
     </div>
 
+    <!-- calendar modal -->
+    <div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">New Calendar Entry</h4>
+          </div>
+          <div class="modal-body">
+            <div id="testmodal" style="padding: 5px 20px;">
+              <form id="antoform" class="form-horizontal calender" role="form">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Title</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="title" name="title">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Description</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" id="descr" name="descr"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary antosubmit">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel2">Edit Calendar Entry</h4>
+          </div>
+          <div class="modal-body">
+
+            <div id="testmodal2" style="padding: 5px 20px;">
+              <form id="antoform2" class="form-horizontal calender" role="form">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Title</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="title2" name="title2">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Description</label>
+                  <div class="col-sm-9">
+                    <textarea class="form-control" style="height:55px;" id="descr2" name="descr"></textarea>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default antoclose2" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary antosubmit2">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
+    <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
+    <!-- /calendar modal -->
+        
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -396,30 +340,12 @@ $logado = $_SESSION['login'];
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="../vendors/nprogress/nprogress.js"></script>
-    <!-- bootstrap-daterangepicker -->
+    <!-- FullCalendar -->
     <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- bootstrap-datetimepicker -->    
-    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <!-- jQuery Smart Wizard -->
-    <script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+    <script src="../vendors/fullcalendar/dist/fullcalendar.min.js"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="js/custom.min.js"></script>
 
-    <script>
-
-
-      $('#myDatepicker2').datetimepicker({
-        format: 'DD.MM.YYYY'
-      });
-
-      $('#myDatepicker3').datetimepicker({
-        format: 'DD.MM.YYYY'
-      });
-
-
-    </script>
-
-
   </body>
-  </html>
+</html>

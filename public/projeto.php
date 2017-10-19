@@ -3,16 +3,8 @@
 include '../config/db_config.php';
 include '../config/lista_metricas.php';
 
+$projeto_id = $_POST["data"];
 
-session_start();
-if((!isset ($_SESSION['login']) == true) and (!isset ($_SESSION['senha']) == true))
-{
-  unset($_SESSION['login']);
-  unset($_SESSION['senha']);
-  header('location:index.php');
-}
-
-$logado = $_SESSION['login'];
 ?>
 
 
@@ -32,7 +24,7 @@ $logado = $_SESSION['login'];
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title><?php echo $logado; ?> </title>
+  <title>Dashboard de Qualidade</title>
 
   <!-- Bootstrap -->
   <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -60,7 +52,7 @@ $logado = $_SESSION['login'];
       <div class="col-md-3 left_col">
         <div class="left_col scroll-view">
           <div class="navbar nav_title" style="border: 0;">
-            <a href="home.php" class="site_title"><i class="fa fa-paw"></i> <span>Bem Vindo Levi</span></a>
+            <a href="home.php" class="site_title"><i class="fa fa-paw"></i> <span>Dashboard</span></a>
           </div>
 
           <div class="clearfix"></div>
@@ -90,6 +82,7 @@ $logado = $_SESSION['login'];
                     <li><a href="lista_projeto.php">Listar Projetos</a></li>
                   </ul>
                 </li>
+                <li><a href="calendar.php"  ><i class="glyphicon glyphicon-calendar"></i> Calendario </span></a>
 
               </div>
 
@@ -217,21 +210,15 @@ $logado = $_SESSION['login'];
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <img src="images/git_logo.png" width="70px" height="70px">
-                <img src="images/sonar_logo.png" width="140px" height="80px">
+                <?php 
+                $array = pega_dados_projeto(1,$projeto_id);
+                echo "<h1>".$array['Nome']."</h1>";
+                echo "<h2> Linguagem de Desenvolvimento: ".$array['Linguagem']."</h2>";
+
+                ?>
+                
               </br>
             </br>
-          </div>
-        </div>
-      </div>
-
-      <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Go!</button>
-            </span>
           </div>
         </div>
       </div>
@@ -242,18 +229,20 @@ $logado = $_SESSION['login'];
       <div class="row"></div>
 
       <?php
+      
 
-      pega_metricas_loc(1);
+      pega_metricas_loc($projeto_id);
 
-      pega_metricas_comentario(1);
+      pega_metricas_comentario($projeto_id);
 
       echo "<div class='clearfix'></div>";
 
       //pega_metricas_issues(1);
 
-      pega_metricas_duplicacao(1);
+      pega_metricas_duplicacao($projeto_id);
 
-      pega_metricas_issues(1);
+      pega_metricas_issues($projeto_id);
+      //pega_metricas_issues($projeto_id);
 
       
 
@@ -264,6 +253,8 @@ $logado = $_SESSION['login'];
 
       ?>
 
+      <a href= "https://github.com/levimoraes/tcc_project "><img src="images/git_logo.png" width="70px" height="70px"></a>
+      <img src="images/sonar_logo.png" width="140px" height="80px">
 
     </div>
   </div>
@@ -273,11 +264,15 @@ $logado = $_SESSION['login'];
 <!-- /page content -->
 
 <!-- footer content -->
+
+
 <footer>
   <div class="pull-right">
     Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
   </div>
   <div class="clearfix"></div>
+  
+
 </footer>
 <!-- /footer content -->
 </div>
@@ -291,9 +286,9 @@ $logado = $_SESSION['login'];
 </div>
 
 <script>
-$(document).ready(function(){
+  $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
-});
+  });
 </script>
 
 <!-- JQVMap -->

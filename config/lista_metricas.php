@@ -521,7 +521,7 @@ function grafico_barras_grupo($valor,$versao,$number){
 		}		
 		echo "],
 		xkey: 'versao',
-		barColors: ['#34495E', '#ACADAC', '#3498DB'],
+		
 		ykeys: ['valor'],
 		labels: ['Comentario'],
 		hideHover: 'auto',

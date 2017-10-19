@@ -2,15 +2,6 @@
 
 include '../config/db_config.php';
 
-session_start();
-if((!isset ($_SESSION['login']) == true) and (!isset ($_SESSION['senha']) == true))
-{
-  unset($_SESSION['login']);
-  unset($_SESSION['senha']);
-  header('location:index.php');
-  }
-
-$logado = $_SESSION['login'];
 ?>
 
 
@@ -23,7 +14,7 @@ $logado = $_SESSION['login'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?php echo $logado; ?> </title>
+    <title>Dashboard de Qualidade </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +42,7 @@ $logado = $_SESSION['login'];
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="home.php" class="site_title"><i class="fa fa-paw"></i> <span>Bem Vindo Levi</span></a>
+              <a href="home.php" class="site_title"><i class="fa fa-paw"></i> <span>Dashboard</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -81,7 +72,8 @@ $logado = $_SESSION['login'];
                       <li><a href="lista_projeto.php">Listar Projetos</a></li>
                     </ul>
                   </li>
-                  
+                  <li><a href="calendar.php"  ><i class="glyphicon glyphicon-calendar"></i> Calendario </span></a>
+                </ul>  
               </div>
 
             </div> 
@@ -208,7 +200,7 @@ $logado = $_SESSION['login'];
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>General Elements</h3>
+                <h3>Seja Bem Vindo,</h3>
               </div>
 
               <div class="title_right">
@@ -251,12 +243,45 @@ $logado = $_SESSION['login'];
             cria_widget(1);
 
             ?>
-                
 
+            
 
-          <div class="clearfix"></div>
+            <div class='col-md-3 col-xs-12 widget widget_tally_box'>
+      <div class='x_panel ui-ribbon-container fixed_height_390'>
+        <div class='ui-ribbon-wrapper'>
 
         </div>
+        <div class='x_title'>
+          
+          <div class='clearfix'></div>
+          
+
+        </div>
+        <div class='x_content'>
+
+
+          <div style='text-align: center; margin-bottom: 17px'>
+           
+          <!-- </div> -->
+
+          <h2 class='name_title'>Adicionar Novo Projeto</h3>
+          <p></p>
+
+          <div class='divider'></div>
+
+         <a href="form_wizards.html"><img src="images/plus.png" height="200px" width="200px" align="center"></a>  
+
+          <p></p>
+
+        </div>
+      </div>
+      </div>    
+
+
+          
+
+        </div>
+        <div class="clearfix"></div>
 
         <!-- /page content -->
 
@@ -311,12 +336,8 @@ $logado = $_SESSION['login'];
     <!-- DateJS -->
     <script src="../vendors/DateJS/build/date.js"></script>
     <!-- JQVMap -->
-    <script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
-    <script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+
 
     <!-- Custom Theme Scripts -->
     <script src="js/custom.min.js"></script>

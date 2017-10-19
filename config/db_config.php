@@ -82,7 +82,7 @@ function checa_login($usuario,$senha){
 }
 
 
-function adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$projeto_metricas,$widget){
+function adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$projeto_metricas,$widget,$url_git){
 	
 	$servername = "localhost";
 	$username = "root";
@@ -98,8 +98,8 @@ function adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$proj
 		die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "INSERT INTO Projeto (Nome, Descricao, Gestor, Linguagem, Data_Inicio, Data_Fim, Metricas,Modelo_widget)
-	VALUES ('$projeto_nome','$projeto_desc', 1 , '$projeto_linguagem', '$projeto_data_inicio', '$projeto_data_fim', '$projeto_metricas',$widget)";
+	$sql = "INSERT INTO Projeto (Nome, Descricao, Gestor, Linguagem, Data_Inicio, Data_Fim, Metricas,Modelo_widget, url_git)
+	VALUES ('$projeto_nome','$projeto_desc', 1 , '$projeto_linguagem', '$projeto_data_inicio', '$projeto_data_fim', '$projeto_metricas',$widget,'$url_git')";
 
 	if ($conn->query($sql) === TRUE) {
 	} else {
@@ -196,7 +196,10 @@ function cria_widget($id_gestor){
 				echo "<div class='col-md-3 col-xs-12 widget widget_tally_box'>
 				<div class='x_panel fixed_height_390'>
 					<div class='x_title'>
-						<h2><a href='projeto.php'>".$row['Nome']."</a></h2>
+						<form action='projeto.php' method='post'>
+						   <input type='hidden' name ='data' value='".$row['Id']."' />
+						   <input type='submit' value =' ".$row['Nome']. "' />
+						</form>
 						<div class='clearfix'></div>
 					</div>
 					<div class='x_content'>
@@ -261,7 +264,10 @@ function cria_widget($id_gestor){
 
 				</div>
 				<div class='x_title'>
-					<h2><a href='projeto.php'>".$row['Nome']."</a></h2>
+					<form action='projeto.php' method='post'>
+						   <input type='hidden' name ='data' value='".$row['Id']."' />
+						   <input type='submit' value =' ".$row['Nome']. "' />
+						</form>
 					<div class='clearfix'></div>
 				</div>
 				<div class='x_content'>
@@ -287,7 +293,10 @@ function cria_widget($id_gestor){
 		echo "<div class='col-md-3 col-xs-12 widget widget_tally_box'>
 		<div class='x_panel fixed_height_390'>
 			<div class='x_title'>
-				<h2><a href='projeto.php'>".$row['Nome']."</a></h2>
+				<form action='projeto.php' method='post'>
+						   <input type='hidden' name ='data' value='".$row['Id']."' />
+						   <input type='submit' value =' ".$row['Nome']. "' />
+						</form>
 				
 				<div class='clearfix'></div>
 			</div>
@@ -335,6 +344,47 @@ function cria_widget($id_gestor){
 	}
 }
 
+function pega_dados_projeto($id_gestor,$id_projeto){
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+	
+	$array_projeto = array();
+
+	$sql = "SELECT * FROM Projeto WHERE Gestor = '$id_gestor' AND Id = $id_projeto ";
+
+	$result = $conn->query($sql);
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			$array_projeto['Nome'] = $row["Nome"];
+			$array_projeto['Descricao'] = $row["Descricao"];
+			$array_projeto['Linguagem'] = $row["Linguagem"];
+			$array_projeto['Data_Inicio'] = $row["Data_Inicio"];
+			$array_projeto['Data_Fim'] = $row["Data_Fim"];
+			$array_projeto['Metricas'] = $row["Modelo_widget"];
+			$array_projeto['url_git'] = $row["url_git"];
+			
+	}
+
+	return $array_projeto;
+
+}
+
+	
+
+}
 		
 
 
