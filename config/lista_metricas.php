@@ -1,6 +1,6 @@
 <?php 
 
-
+include 'descricao_metricas.php';
 
 
 
@@ -27,6 +27,8 @@ function pega_metricas_loc($id){
 
 	$LOC = array();
 	$LOC_version = array();
+	$number = rand(1,100);
+	$metrica = "LOC";
 
 
 	if($result->num_rows>0){
@@ -38,18 +40,10 @@ function pega_metricas_loc($id){
 
 			array_push($LOC, $valor);
 			array_push($LOC_version, $versao);
-
-
-			// 	criar_grafico(1,1);
-				
-			 
-			// if ($id == "Comentario"){
-			// 	criar_grafico(2,1);
 				
 			}
 
-			$c =  array_combine($LOC_version, $LOC);
-			criar_grafico(1,$LOC,$LOC_version);
+			criar_grafico(4,$LOC,$LOC_version,$number,$metrica);
 
 		}
 
@@ -76,9 +70,10 @@ function pega_metricas_comentario($id){
 
 	$result = $conn->query($sql);
 
-	$LOC = array();
-	$LOC_version = array();
-
+	$Comentario = array();
+	$Comentario_version = array();
+	$number = rand(1,100);
+	$metrica = "COMENTARIO";
 
 	if($result->num_rows>0){
 		while($row = $result->fetch_assoc()) {
@@ -86,14 +81,13 @@ function pega_metricas_comentario($id){
 			$versao = $row['Versao'];
 			$id = $row['Metrica'];
 			$valor = $row['Valor'];
-
-			array_push($LOC, $valor);
-			array_push($LOC_version, $versao);
 				
+			array_push($Comentario, $valor);
+			array_push($Comentario_version, $versao);
+
 			}
 
-			$c =  array_combine($LOC_version, $LOC);
-			criar_grafico(2,$LOC,$LOC_version);
+			criar_grafico(2,$Comentario,$Comentario_version,$number,$metrica);
 
 		}
 
@@ -101,6 +95,21 @@ function pega_metricas_comentario($id){
 }
 
 function pega_metricas_issues($id){
+	$metrica = "ISSUES";
+	$array_issues = array();
+	$number = rand(1,100);
+
+	$array_issues['minor'] = pega_metricas_issues_minor(1);
+	$array_issues['major'] = pega_metricas_issues_major(1);
+	$array_issues['blocker'] = pega_metricas_issues_blocker(1);
+	$array_issues['info'] = pega_metricas_issues_info(1);
+
+	criar_grafico(3,$array_issues,1,$number,$metrica);
+
+}
+
+
+function pega_metricas_issues_minor($id){
 
 	$servername = "localhost";
 	$username = "root";
@@ -116,13 +125,14 @@ function pega_metricas_issues($id){
 		die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'numero_issues'";
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Minor'";
 
 	$result = $conn->query($sql);
 
-	$numero_issues = array();
-	$numero_issues_version = array();
+	$array_issue = array();
 
+	$number = rand(1,100);
+	$metrica = "ISSUES_MINOR";
 
 	if($result->num_rows>0){
 		while($row = $result->fetch_assoc()) {
@@ -131,16 +141,155 @@ function pega_metricas_issues($id){
 			$id = $row['Metrica'];
 			$valor = $row['Valor'];
 
-			array_push($numero_issues, $valor);
-			array_push($numero_issues_version, $versao);
+			$array_issue[$versao] = $valor;
+
+
 				
 			}
-
-			$c =  array_combine($numero_issues_version, $numero_issues);
-			criar_grafico(2,$numero_issues,$numero_issues_version);
+		return $array_issue;
 
 		}
 
+
+		//return [$issue_minor,$issue_minor_version];
+	
+}
+
+function pega_metricas_issues_major($id){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Major'";
+
+	$result = $conn->query($sql);
+
+	$array_issue = array();
+
+	$number = rand(1,100);
+	$metrica = "ISSUES_MINOR";
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			$array_issue[$versao] = $valor;
+
+
+				
+			}
+		return $array_issue;
+
+		}
+
+
+		//return [$issue_minor,$issue_minor_version];
+	
+}
+
+function pega_metricas_issues_blocker($id){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Blocker'";
+
+	$result = $conn->query($sql);
+
+	$array_issue = array();
+
+	$number = rand(1,100);
+	$metrica = "ISSUES_MINOR";
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			$array_issue[$versao] = $valor;
+
+
+				
+			}
+		return $array_issue;
+
+		}
+
+
+		//return [$issue_minor,$issue_minor_version];
+	
+}
+
+function pega_metricas_issues_info($id){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Info'";
+
+	$result = $conn->query($sql);
+
+	$array_issue = array();
+
+	$number = rand(1,100);
+	$metrica = "ISSUES_INFO";
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			$array_issue[$versao] = $valor;
+
+
+				
+			}
+		return $array_issue;
+
+		}
+
+
+		//return [$issue_minor,$issue_minor_version];
 	
 }
 
@@ -160,13 +309,14 @@ function pega_metricas_duplicacao($id){
 		die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'duplicacao'";
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Duplicacao'";
 
 	$result = $conn->query($sql);
 
-	$LOC = array();
-	$LOC_version = array();
-
+	$Duplicacao = array();
+	$Duplicacao_version = array();
+	$number = rand(1,100);
+	$metrica = "DUPLICACAO";
 
 	if($result->num_rows>0){
 		while($row = $result->fetch_assoc()) {
@@ -175,72 +325,27 @@ function pega_metricas_duplicacao($id){
 			$id = $row['Metrica'];
 			$valor = $row['Valor'];
 
-			array_push($LOC, $valor);
-			array_push($LOC_version, $versao);
+			array_push($Duplicacao, $valor);
+			array_push($Duplicacao_version, $versao);
 				
 			}
 
-			$c =  array_combine($LOC_version, $LOC);
-			criar_grafico(2,$LOC,$LOC_version);
+			criar_grafico(1,$Duplicacao,$Duplicacao_version,$number,$metrica);
 
 		}
 
 	
 }
 
-function pega_metricas_code_smells($id){
-
-	$servername = "localhost";
-	$username = "root";
-	$password = "root";
-	$dbname = "dashboard";
-
-	
-
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	}
-
-	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'code_smells'";
-
-	$result = $conn->query($sql);
-
-	$LOC = array();
-	$LOC_version = array();
-
-
-	if($result->num_rows>0){
-		while($row = $result->fetch_assoc()) {
-			
-			$versao = $row['Versao'];
-			$id = $row['Metrica'];
-			$valor = $row['Valor'];
-
-			array_push($LOC, $valor);
-			array_push($LOC_version, $versao);
-				
-			}
-
-			$c =  array_combine($LOC_version, $LOC);
-			criar_grafico(2,$LOC,$LOC_version);
-
-		}
-
-	
-}
-
-function criar_grafico($opcao,$valor,$versao){
+function criar_grafico($opcao,$valor,$versao,$number,$metrica){
 	
 	//GRAFICO BARRA
 	if($opcao==1){
-		echo "<div class='row'></div>
-		 <div class='col-md-6 col-sm-6 col-xs-12'>
+		echo"<!-- bar chart -->
+              <div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>LOC <small>Sessions</small></h2>
+                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' > ?</a></small> </h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -259,26 +364,24 @@ function criar_grafico($opcao,$valor,$versao){
                     <div class='clearfix'></div>
                   </div>
                   <div class='x_content'>
-                    <div id='graph_bar$opcao' style='width:100%; height:280px;'></div>
+                    <div id='graph_bar$number' style='width:100%; height:280px;'></div>
                   </div>
                 </div>
               </div>
-              
-              <div id='clearfix'></div>
-
+              <!-- /bar charts -->
               ";
 
-              grafico_barras($valor,$versao);
+              grafico_barras($valor,$versao,$number);
 
      }
      
      //GRAFICO BARRA GRUPO
      if ($opcao==2) {
-     	echo "<div class='row'>
+     	echo "
      	<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>COMMENT <small>Sessions</small></h2>
+                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' > ?</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -297,13 +400,13 @@ function criar_grafico($opcao,$valor,$versao){
                     <div class='clearfix'></div>
                   </div>
                   <div class='x_content1'>
-                    <div id='graph_bar_group$opcao' style='width:100%; height:280px;'></div>
+                    <div id='graph_bar_group$number' style='width:100%; height:280px;'></div>
                   </div>
                 </div>
               </div>
-              <div class='clearfix'></div>"; 
+              "; 
 
-              grafico_barras_grupo($valor,$versao);        	
+              grafico_barras_grupo($valor,$versao,$number);        	
      
 
      }
@@ -312,7 +415,7 @@ function criar_grafico($opcao,$valor,$versao){
      	echo"<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>Pie Chart <small>Sessions</small></h2>
+                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' > ?</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -331,19 +434,23 @@ function criar_grafico($opcao,$valor,$versao){
                     <div class='clearfix'></div>
                   </div>
                   <div class='x_content2'>
-                    <div id='graph_donut' style='width:100%; height:300px;'></div>
+                    <div id='graph_donut$number' style='width:100%; height:300px;'></div>
                   </div>
                 </div>
-              </div> ";
+              </div> 
+             ";
+
+              grafico_pizza($valor,$versao,$number);
               
      }
 
      //GRAFICO DE LINHAS
      if ($opcao==4){
+
      	echo "<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>Line Graph <small>Sessions</small></h2>
+                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' > ?</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -362,21 +469,27 @@ function criar_grafico($opcao,$valor,$versao){
                     <div class='clearfix'></div>
                   </div>
                   <div class='x_content2'>
-                    <div id='graph_line' style='width:100%; height:300px;'></div>
+                  	<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+  						<div id='curve_chart'></div>
                   </div>
                 </div>
-              </div>";
-     }         
+              </div>
+				
+              ";
+
+              grafico_linha($valor,$versao,$number);
+     }
+
 
 
 	
 }
 
 
-function grafico_barras($valor,$versao){
+function grafico_barras($valor,$versao,$number){
 	echo "<script type='text/javascript'>
 	Morris.Bar({
-		element: 'graph_bar1',
+		element: 'graph_bar$number',
 		data: [
 		";
 
@@ -387,7 +500,7 @@ function grafico_barras($valor,$versao){
 		echo "],
 		xkey: 'versao',
 		ykeys: ['linhas'],
-		labels: ['Linhas'],
+		labels: ['linhas'],
 		barRatio: 0.4,
 		barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
 		xLabelAngle: 35,
@@ -398,19 +511,19 @@ function grafico_barras($valor,$versao){
 
 }
 
-function grafico_barras_grupo($valor,$versao){
+function grafico_barras_grupo($valor,$versao,$number){
 	echo "<script type='text/javascript'>
 	Morris.Bar({
-		element: 'graph_bar_group2',
+		element: 'graph_bar_group$number',
 		data: [";
 		for($i=0; $i<count($versao);$i++){
 			echo "{versao: '$versao[$i]', 'valor': '$valor[$i]', 'sorned': 0},";
 		}		
 		echo "],
 		xkey: 'versao',
-		barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
-		ykeys: ['valor', 'sorned'],
-		labels: ['Licensed', 'SORN'],
+		barColors: ['#34495E', '#ACADAC', '#3498DB'],
+		ykeys: ['valor'],
+		labels: ['Comentario'],
 		hideHover: 'auto',
 		xLabelAngle: 60,
 		resize: true
@@ -419,48 +532,65 @@ function grafico_barras_grupo($valor,$versao){
 
 }
 
-function grafico_pizza($valor,$versao){
+function grafico_pizza($valor,$versao,$number){
 	echo "<script type='text/javascript'>
 	Morris.Donut({
-				  element: 'graph_donut',
+				  element: 'graph_donut$number',
 				  data: [
-					{label: 'Jam', value: 25},
-					{label: 'Frosted', value: 40},
-					{label: 'Custard', value: 25},
-					{label: 'Sugar', value: 10}
+					{label: 'Major', value:"; echo $valor['major']['2.2']; echo "},
+					{label: 'Minor', value:"; echo $valor['minor']['2.2']; echo "},
+					{label: 'Blocker', value:"; echo $valor['blocker']['2.2']; echo "},
+					{label: 'Info', value:"; echo $valor['info']['2.2']; echo "},
 				  ],
 				  colors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
-				  formatter: function (y) {
-					return y + "%";
-				  },
+				  
 				  resize: true
 				});
 				</script>";
 }
 
-function grafico_linha($valor,$versao){
-	echo "<script type='text/javascript'>
-	Morris.Line({
-				  element: 'graph_line',
-				  xkey: 'year',
-				  ykeys: ['value'],
-				  labels: ['Value'],
-				  hideHover: 'auto',
-				  lineColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
-				  data: [
-					{year: '2012', value: 20},
-					{year: '2013', value: 10},
-					{year: '2014', value: 5},
-					{year: '2015', value: 5},
-					{year: '2016', value: 20}
-				  ],
-				  resize: true
-				});
+function grafico_linha($valor,$versao,$number){
 
-				$MENU_TOGGLE.on('click', function() {
-				  $(window).resize();
-				});
-			</script>";
+echo "<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
+    <script type='text/javascript'>
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Versao', 'Linhas'],";
+          
+        for($i=0; $i<count($versao);$i++){
+			echo "[ $versao[$i], $valor[$i] ],";
+		}	
+
+        echo "]);
+
+        var options = {
+          pointSize: 3,
+		  colors: ['#26B99A','#34495E', '#ACADAC', '#3498DB'],        
+          title: 'Número de Linhas',
+          curveType: 'function',
+          legend: { position: 'top' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+
+
+      </script>";
+
+
+
+
+
+
+
+
+
+		
 			
 }
 

@@ -150,7 +150,7 @@ function pega_projetos($id_gestor){
 				<button type='button' class='btn btn-success btn-xs'>Success</button>
 			</td>
 			<td>
-				<a href='#' class='btn btn-primary btn-xs'><i class='fa fa-folder'></i> View </a>
+				<a href='../public/projeto.php' class='btn btn-primary btn-xs'><i class='fa fa-folder'></i> View </a>
 				<a href='form_wizards.html' class='btn btn-info btn-xs'><i class='fa fa-pencil'></i> Edit </a>
 				<button onclick='myFunction()' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i> Delete </button>
 			</td>
