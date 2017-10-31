@@ -1,16 +1,12 @@
 <?php  
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 include '../config/db_config.php';
+include '../config/lista_metricas.php';
 
-session_start();
-if((!isset ($_SESSION['login']) == true) and (!isset ($_SESSION['senha']) == true))
-{
-  unset($_SESSION['login']);
-  unset($_SESSION['senha']);
-  header('location:index.php');
-  }
-
-$logado = $_SESSION['login'];
 ?>
 
 
@@ -23,7 +19,7 @@ $logado = $_SESSION['login'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><?php echo $logado; ?> </title>
+    <title>Dashboard</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,13 +29,18 @@ $logado = $_SESSION['login'];
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-  
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- bootstrap-datetimepicker -->
+    <link href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <!-- Ion.RangeSlider -->
+    <link href="../vendors/normalize-css/normalize.css" rel="stylesheet">
+    <link href="../vendors/ion.rangeSlider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../vendors/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
     <!-- bootstrap-progressbar -->
     <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
     <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
-    <!-- bootstrap-daterangepicker -->
-    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="css/custom.min.css" rel="stylesheet">
@@ -208,7 +209,7 @@ $logado = $_SESSION['login'];
           <div class="x_content">
             <div class="page-title">
               <div class="title_left">
-                <h3>Form Elements</h3>
+                <h3>Formulário de Cadastro</h3>
               </div>
 
               <div class="clearfix"></div>
@@ -216,7 +217,7 @@ $logado = $_SESSION['login'];
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Form Basic Elements <small>different form elements</small></h2>
+                    <h2><small></small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -285,24 +286,28 @@ $logado = $_SESSION['login'];
                   </div>
                   
                   <div class="form-group">
-                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">Métricas</label>
+                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">De Acordo com o seu projeto defina um grau de importancia para as seguintes metricas    (0- Irrelevante e 100-Muito Relevante)</label>
 
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                      <div class="checkbox">
-                        <p style="padding: 5px;">
-                          <input type="checkbox" name="metrica[]" id="LOC" value="loc" class="flat" /> LOC
-                          <br />
+                      
+                      <?php
 
-                          <input type="checkbox" name="metrica[]" id="MOC" value="moc" class="flat" /> MOC
-                          <br />
+                      for ($i=0; $i<4 ; $i++) { 
+                        $metrica[$i] = sorteia_metrica();
+                        if ($i > 0) {
+                          if ($metrica[$i] == $metrica[$i-1]) {
+                            $metrica[$i] = sorteia_metrica();
+                          }
 
-                          <input type="checkbox" name="metrica[]" id="WMC" value="wmc" class="flat" /> WMC
-                          <br />
+                          echo " <p>$metrica[$i]</p>
+                          <input type='hidden' name='metrica_$i' id='metrica_$i' value='$metrica[$i]'>  
+                          <input class='knob' data-width='100' data-height='120' data-min='0' data-displayPrevious=true data-fgColor='#26B99A' value='0' id='valor_$i' name='valor_$i'>";
+                        }
+                      }
 
-                          <input type="checkbox" name="metrica[]" id="IRA" value="ira" class="flat" /> IRA
-                          <br />
-                          <p>
-                          </div> 
+                      ?>
+                    </div>
+
                         </div>
 
                     <div class="form-group">
@@ -405,6 +410,7 @@ $logado = $_SESSION['login'];
     <script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="js/custom.min.js"></script>
+    <script src="../vendors/jquery-knob/dist/jquery.knob.min.js"></script>
 
     <script>
 

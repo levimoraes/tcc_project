@@ -1,0 +1,10 @@
+{
+    "DOCUMENTATION": "", 
+    "ERROR_PRONE": "0", 
+    "CODE_STYLE": "33", 
+    "CODE_COMPLEXITY": "", 
+    "UNUSED_CODE": "95", 
+    "PERFORMANCE": "99", 
+    "SECURITY": "22", 
+    "COMPATIBILITY": "94"
+}

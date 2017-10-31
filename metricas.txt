@@ -1,1 +1,10 @@
-version=[]LOC=[<span id="m_ncloc">4,431</span>]COMPLEXIDADE=[<span id="m_complexity">374</span>]COMENTARIOS=[<span id="m_comment_lines_density">2.9%</span>]LINHAS DUPLICADAS=[<span id="m_duplicated_lines_density">8.4%</span>]
+{
+    "LOC": "4,431", 
+    "CODE_SMELLS": "106", 
+    "BUGS": "36", 
+    "LINHAS_DUPLICADAS": "8.4%", 
+    "DEBITO_TECNICO": "1d 4h", 
+    "COMENTARIOS": "2.9%", 
+    "ISSUES": "214", 
+    "COMPLEXIDADE": "374"
+}

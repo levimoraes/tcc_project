@@ -2,7 +2,52 @@
 
 include 'descricao_metricas.php';
 
+function sugestao_metricas($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3){
+	$name = 'arquivo.txt';
+	$text = "dataset={
+			'Gestor 1': {'DUPLICACAO': 3.0, 
+							'COMENTARIO': 3.5,
+							'SEGURANCA': 4.0,
+							'COMPATIBILIDADE': 0.5,
+							'ERROR': 1.0},
 
+			'Gestor 2': {'DUPLICACAO': 4.5, 
+							'COMENTARIO': 5.0,
+							'SEGURANCA': 5.0,
+							 'PERFORMANCE': 4.0, 
+							 'BUGS': 3.0},
+
+			'Gestor 3': {'ERROR': 2.0, 
+								'SEGURANCA': 2.5,
+								'CODIGO': 3.0,
+								 'DEBITO': 3.0,
+								 'ISSUES': 3.5},
+
+			'Gestor 4': {'COMENTARIO': 2.5, 
+							'ERROR': 3.5,
+							'PERFORMANCE': 1.5,
+							'VULNERABILIDADE':3.0},
+							
+			'Usuario':{'$metrica1': $valor1,
+							'$metrica2': $valor2,
+							'$metrica3': $valor3} 
+			}";
+	$file = fopen($name, 'w');
+	fwrite($file, $text);
+	fclose($file);
+
+
+}
+
+
+
+function sorteia_metrica(){
+	$vetor_metrica = ['DUPLICACAO', 'COMENTARIO', 'COMPATIBILIDADE', 'ERROR_PHONE', 'SEGURANCA', 'ESTILO_DE_CODIGO', 'PERFORMANCE', 'CODIGO_NAO_UTILIZADO',  'BUGS', 'VULNERABILIDADE', 'DEBITO_TECNICO', 'CODE_SMELLS', 'LINHAS_DE_CODIGO'];
+
+	$number = rand(0,12);
+	return $vetor_metrica[$number];
+
+}
 
 
 function pega_metricas_loc($id){
@@ -66,7 +111,7 @@ function pega_metricas_comentario($id){
 		die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Comentario'";
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'COMENTARIOS'";
 
 	$result = $conn->query($sql);
 
@@ -309,7 +354,7 @@ function pega_metricas_duplicacao($id){
 		die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Duplicacao'";
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'DUPLICACAO'";
 
 	$result = $conn->query($sql);
 
@@ -580,18 +625,44 @@ echo "<script type='text/javascript' src='https://www.gstatic.com/charts/loader.
       }
 
 
-      </script>";
+      </script>";			
+}
 
-
-
-
-
-
-
-
-
-		
-			
+function cria_widget_menor(){
+	echo "<div class='row'></div>
+      <div class='row top_tiles'>
+              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
+                <div class='tile-stats'>
+                  <div class='icon'><i class='fa fa-caret-square-o-right'></i></div>
+                  <div class='count'>179</div>
+                  <h3>ESTILO DE CODIGO</h3>
+                  <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
+              </div>
+              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
+                <div class='tile-stats'>
+                  <div class='icon'><i class='fa fa-comments-o'></i></div>
+                  <div class='count'>179</div>
+                  <h3>PERFORMANCE</h3>
+                  <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
+              </div>
+              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
+                <div class='tile-stats'>
+                  <div class='icon'><i class='fa fa-sort-amount-desc'></i></div>
+                  <div class='count'>179</div>
+                  <h3>BUGS</h3>
+                  <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
+              </div>
+              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
+                <div class='tile-stats'>
+                  <div class='icon'><i class='fa fa-check-square-o'></i></div>
+                  <div class='count'>179</div>
+                  <h3>New Sign ups</h3>
+                  <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
+                </div>";
 }
 
 
