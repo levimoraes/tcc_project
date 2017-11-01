@@ -29,8 +29,18 @@ $valor1 = ($valor1*5)/100;
 $valor2 = ($valor2*5)/100;
 $valor3 = ($valor3*5)/100;
 
+escrever_dados($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3);
+
+
 $v = run_python();
-echo "<script> alert(' $v[0] ') </script>";
+
+echo "<script> alert('".escrever_array($v)." ') </script>";
+
+
+function escrever_array($array){
+	echo $array;
+}
+
 
 //sugestao_metricas($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3);
 

@@ -1,9 +1,13 @@
 <?php 
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 include 'descricao_metricas.php';
 
-function sugestao_metricas($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3){
-	$name = 'arquivo.txt';
+function sugere_metricas($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3){
+	$name = 'arquivo.py';
 	$text = "dataset={
 			'Gestor 1': {'DUPLICACAO': 3.0, 
 							'COMENTARIO': 3.5,
@@ -35,8 +39,6 @@ function sugestao_metricas($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3
 	$file = fopen($name, 'w');
 	fwrite($file, $text);
 	fclose($file);
-
-
 }
 
 
@@ -47,6 +49,48 @@ function sorteia_metrica(){
 	$number = rand(0,12);
 	return $vetor_metrica[$number];
 
+}
+
+function pega_metricas_generico($id,$metrica){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = '$metrica'";
+
+	$result = $conn->query($sql);
+
+	$LOC = array();
+	$LOC_version = array();
+	$number = rand(1,100);
+	
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($LOC, $valor);
+			array_push($LOC_version, $versao);
+				
+			}
+			return $LOC; 
+
+		}	
 }
 
 
@@ -390,7 +434,7 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
               <div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' > ?</a></small> </h2>
+                    <h2><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' >$metrica</a></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -426,7 +470,7 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
      	<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' > ?</a></small></h2>
+                    <h2><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' >$metrica</a></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -460,7 +504,7 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
      	echo"<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' > ?</a></small></h2>
+                    <h2><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' >$metrica</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -495,7 +539,7 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
      	echo "<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' > ?</a></small></h2>
+                    <h2><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' >$metrica</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -628,39 +672,61 @@ echo "<script type='text/javascript' src='https://www.gstatic.com/charts/loader.
       </script>";			
 }
 
-function cria_widget_menor(){
+function compara_valores($valor_ant,$valor_novo){
+	if($valor_ant > $valor_novo){
+		return "<div class='icon'><i class='fa fa-arrow-down'></i></div>";
+	}
+	else if ($valor_ant < $valor_novo){
+		return "<div class='icon'><i class='fa fa-arrow-up'></i></div>"; 
+	}
+	else{
+		return "<div class='icon'><i class='fa fa-minus'></i></div>";
+	}
+}
+
+
+
+function cria_widget_menor($id_projeto,$metrica1, $metrica2, $metrica3, $metrica4){
+	$valor_metrica1 = pega_metricas_generico($id_projeto,$metrica1);
+	$valor_metrica2 = pega_metricas_generico($id_projeto,$metrica2);
+	$valor_metrica3 = pega_metricas_generico($id_projeto,$metrica3);
+	$valor_metrica4 = pega_metricas_generico($id_projeto,$metrica4);
+
+	$tam_metrica1 = count($valor_metrica1);
+
+
 	echo "<div class='row'></div>
       <div class='row top_tiles'>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>
-                  <div class='icon'><i class='fa fa-caret-square-o-right'></i></div>
-                  <div class='count'>179</div>
-                  <h3>ESTILO DE CODIGO</h3>
-                  <p>Lorem ipsum psdea itgum rixt.</p>
+                <div class='tile-stats'>".
+                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
+                  ."<div class='count'>".end($valor_metrica1)."</div>
+                  <h3><font size='4'>$metrica1</font></h3>
+                  <p></p>
                 </div>
               </div>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>
-                  <div class='icon'><i class='fa fa-comments-o'></i></div>
-                  <div class='count'>179</div>
-                  <h3>PERFORMANCE</h3>
-                  <p>Lorem ipsum psdea itgum rixt.</p>
+                <div class='tile-stats'>".
+                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
+                  ."<div class='count'>".end($valor_metrica2)."</div>
+                  <h3><font size='4'>$metrica2</font></h3>
+                  <p></p>
                 </div>
               </div>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>
-                  <div class='icon'><i class='fa fa-sort-amount-desc'></i></div>
-                  <div class='count'>179</div>
-                  <h3>BUGS</h3>
-                  <p>Lorem ipsum psdea itgum rixt.</p>
+                <div class='tile-stats'>".
+                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
+                  ."<div class='count'>".end($valor_metrica3)."</div>
+                  <h3><font size='4'>$metrica3</font></h3>
+                  <p></p>
                 </div>
               </div>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>
-                  <div class='icon'><i class='fa fa-check-square-o'></i></div>
-                  <div class='count'>179</div>
-                  <h3>New Sign ups</h3>
-                  <p>Lorem ipsum psdea itgum rixt.</p>
+                <div class='tile-stats'>".
+                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
+                  ."<div class='count'>".end($valor_metrica4)."</div>
+                  <h3><font size='4'>$metrica4</font></h3>
+                  <p></p>
                 </div>
                 </div>";
 }

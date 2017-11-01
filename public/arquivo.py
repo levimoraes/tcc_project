@@ -22,7 +22,7 @@ dataset={
 							'PERFORMANCE': 1.5,
 							'VULNERABILIDADE':3.0},
 							
-			'Usuario':{'PERFORMANCE': 3.75,
-							'PERFORMANCE': 4,
-							'PERFORMANCE': 4.2} 
+			'Usuario':{'LINHAS_DE_CODIGO': 2.5,
+							'DUPLICACAO': 4.4,
+							'CODE_SMELLS': 0.5} 
 			}
