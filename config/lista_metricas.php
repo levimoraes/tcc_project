@@ -66,7 +66,7 @@ function pega_metricas_comentario($id){
 		die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'Comentario'";
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $id && Metrica = 'COMENTARIOS'";
 
 	$result = $conn->query($sql);
 
