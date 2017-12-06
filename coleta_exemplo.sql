@@ -55,7 +55,31 @@
 	("Minor",1,5,2.2),
 	("Major",1,2,2.2),
 	("Blocker",1,1,2.2),
-	("Info",1,20,1.2)
+	("Info",1,20,1.2),
+
+	("ESTILO_DE_CODIGO",1,13,1.0),
+	("PERFORMANCE",1,5,1.0),
+	("COMPATIBILIDADE",1,10,1.0),
+	("SEGURANCA",1,133,1.0),
+
+
+	("ESTILO_DE_CODIGO",1,37,1.1),
+	("PERFORMANCE",1,51,1.1),
+	("COMPATIBILIDADE",1,2,1.1),
+	("SEGURANCA",1,15,1.1)
+
+	("ESTILO_DE_CODIGO",2,13,1.0),
+	("PERFORMANCE",2,5,1.0),
+	("COMPATIBILIDADE",2,10,1.0),
+	("SEGURANCA",2,133,1.0),
+
+
+	("ESTILO_DE_CODIGO",2,10,1.1),
+	("PERFORMANCE",2,5,1.1),
+	("COMPATIBILIDADE",2,20,1.1),
+	("SEGURANCA",2,10,1.1)
+
+
 
 
 
