@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 include '../config/db_config.php';
 include '../config/lista_metricas.php';
+include '../config/pagina.php';
 include 'run_python.php';
 
 
@@ -34,19 +35,50 @@ escrever_dados($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3);
 
 $v = run_python();
 
-echo "<script> alert('".escrever_array($v)." ') </script>";
+ // echo escrever_array($v);
 
+$metricas = descobre_metricas($v);
 
 function escrever_array($array){
 	echo $array;
 }
 
 
+function descobre_metricas($v){
+
+		if (preg_match("/Novato/i", $v)) {
+			return "DUPLICACAO,COMENTARIOS,SEGURANCA,PERFORMANCE";
+		
+     	
+} 
+	else if (preg_match("/Excesso/i", $v)) {
+		return "DUPLICACAO,ERROR,SEGURANCA,COMPATIBILIDADE";
+		
+    	
+}
+	else if (preg_match("/Minimo/i", $v)) {
+		return "ERROR,SEGURANCA,CODIGO,DEBITO,ISSUES";
+		
+    	
+}
+	else if (preg_match("/Ingenuo/i", $v)) {
+		return "COMENTARIOS,ERROR,PERFORMANCE,VULNERABILIDADE";
+		
+    	
+}
+
+
+
+}
+
+carrega_pagina($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$projeto_widget,$projeto_git,$v,$projeto_widget,$projeto_git);
+
+
 //sugestao_metricas($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3);
 
 
-//adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$metricas,$projeto_widget,$projeto_git);
+adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$metricas,$projeto_widget,$projeto_git);
 
-//echo '<script>window.location.href = "home.php";</script>';
+// echo '<script>window.location.href = "home.php";</script>';
 
 ?>

@@ -1,7 +1,12 @@
 <?php  
 
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 include '../config/db_config.php';
 include '../config/lista_metricas.php';
+include '../config/perfis_exibicao.php';
 
 $projeto_id = $_POST["data"];
 
@@ -237,26 +242,34 @@ $projeto_id = $_POST["data"];
       
 
       <?php
-      cria_widget_menor($projeto_id,'ESTILO_DE_CODIGO', 'PERFORMANCE', 'COMPATIBILIDADE', 'SEGURANCA');
 
-      pega_metricas_loc($projeto_id);
-
-      pega_metricas_comentario($projeto_id);
+      
+      perfil_exibicao($projeto_id,'Novato');
 
 
+      // cria_widget_menor($projeto_id, $pieces[0], $pieces[1], $pieces[2], $pieces[3]);
 
-      echo "<div class='clearfix'></div>";
+      
 
-      //pega_metricas_issues(1);
 
-      pega_metricas_duplicacao($projeto_id);
+      // pega_metricas_loc($projeto_id);
 
-      pega_metricas_issues($projeto_id);
+      // pega_metricas_comentario($projeto_id);
+
+
+
+      // echo "<div class='clearfix'></div>";
+
+      // //pega_metricas_issues(1);
+
+      // pega_metricas_duplicacao($projeto_id);
+
+      // pega_metricas_issues($projeto_id);
       
 
       
 
-      echo "<div class='clearfix'></div>";
+      // echo "<div class='clearfix'></div>";
 
 
 

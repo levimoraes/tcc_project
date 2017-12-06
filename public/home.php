@@ -270,7 +270,7 @@ include '../config/db_config.php';
 
           <div class='divider'></div>
 
-         <a href="form_wizards.html"><img src="images/plus.png" height="200px" width="200px" align="center"></a>  
+         <a href="form_wizards.php"><img src="images/plus.png" height="200px" width="200px" align="center"></a>  
 
           <p></p>
 

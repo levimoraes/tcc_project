@@ -254,6 +254,8 @@ include '../config/db_config.php';
                       </thead>
                       <tbody>
 
+
+
                       <?php 
                         $result = pega_projetos(1);
                         echo $result;

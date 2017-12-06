@@ -9,25 +9,31 @@ include 'descricao_metricas.php';
 function sugere_metricas($metrica1,$valor1,$metrica2,$valor2,$metrica3,$valor3){
 	$name = 'arquivo.py';
 	$text = "dataset={
-			'Gestor 1': {'DUPLICACAO': 3.0, 
+			'Excesso': {'DUPLICACAO': 3.0, 
 							'COMENTARIO': 3.5,
 							'SEGURANCA': 4.0,
 							'COMPATIBILIDADE': 0.5,
+							'CODIGO_NAO_UTILIZADO': 5,
+							'LINHAS_DE_CODIGO': 5.0,
+							'VULNERABILIDADE': 5.0,
 							'ERROR': 1.0},
 
-			'Gestor 2': {'DUPLICACAO': 4.5, 
+			'Novato': {'DUPLICACAO': 4.5, 
 							'COMENTARIO': 5.0,
-							'SEGURANCA': 5.0,
-							 'PERFORMANCE': 4.0, 
-							 'BUGS': 3.0},
+							'SEGURANCA': 5.0, 
+							'BUGS': 3.0},
 
-			'Gestor 3': {'ERROR': 2.0, 
+			'Minimo': {'ERROR': 2.0, 
 								'SEGURANCA': 2.5,
 								'CODIGO': 3.0,
-								 'DEBITO': 3.0,
-								 'ISSUES': 3.5},
+								'DEBITO': 3.0,
+								'PERFORMANCE': 4.0,
+								'CODIGO_NAO_UTILIZADO': 3.0,
+								'LINHAS_DE_CODIGO': 2.0,
+								'VULNERABILIDADE': 4.5,
+								'ISSUES': 3.5},
 
-			'Gestor 4': {'COMENTARIO': 2.5, 
+			'Ingenuo': {'COMENTARIO': 2.5, 
 							'ERROR': 3.5,
 							'PERFORMANCE': 1.5,
 							'VULNERABILIDADE':3.0},
@@ -49,6 +55,38 @@ function sorteia_metrica(){
 	$number = rand(0,12);
 	return $vetor_metrica[$number];
 
+}
+
+function pega_metricas_projeto($id){
+
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Projeto WHERE Id = $id";
+
+	$result = $conn->query($sql);
+	
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$metrica = $row['Metricas'];
+
+		}
+	}
+
+		return $metrica;	
 }
 
 function pega_metricas_generico($id,$metrica){
@@ -178,8 +216,7 @@ function pega_metricas_comentario($id){
 
 			 criar_grafico(1,$Comentario,$Comentario_version,$number,$metrica);
 
-}
-
+	}
 	
 }
 
@@ -196,7 +233,6 @@ function pega_metricas_issues($id){
 	criar_grafico(3,$array_issues,1,$number,$metrica);
 
 }
-
 
 function pega_metricas_issues_minor($id){
 
@@ -569,16 +605,13 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
 
               grafico_linha($valor,$versao,$number);
      }
-
-
-
 	
 }
 
 
 function grafico_barras($valor,$versao,$number){
-	echo "<script>
-var ctx = document.getElementsByClassName('myChart$number');
+	echo "<script type='text/javascript'>
+		var ctx = document.getElementsByClassName('myChart$number');
         var mybarChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -615,15 +648,12 @@ var ctx = document.getElementsByClassName('myChart$number');
           }
         }
         });
-</script>";
-
+		</script>";
 }
-
-
 
 function grafico_pizza($valor,$versao,$number){
 	echo "<script type='text/javascript'>
-	var ctx = document.getElementsByClassName('pieChart$number');
+			var ctx = document.getElementsByClassName('pieChart$number');
 				  var data = {
 					datasets: [{
 					  data: [" .$valor['major']['2.2']."," .$valor['minor']['2.2'].", " .$valor['blocker']['2.2'].", " .$valor['info']['2.2']."],
@@ -660,10 +690,8 @@ function grafico_pizza($valor,$versao,$number){
 }
 
 function grafico_linha($valor,$versao,$number){
-
-echo "
-	<script>
-	var ctx = document.getElementsByClassName('lineChart$number');
+	echo "<script type='text/javascript'>
+		var ctx = document.getElementsByClassName('lineChart$number');
 			  var lineChart = new Chart(ctx, {
 				type: 'line',
 				data: {
@@ -709,7 +737,7 @@ function compara_valores($valor_ant,$valor_novo){
 		//echo "MAIOR NOVO";
 		return "<div class='icon'><i class='fa fa-arrow-up'></i></div>"; 
 	}
-	else{
+	else if($valor_ant == $valor_novo){
 		//echo "IGUAL";
 		return "<div class='icon'><i class='fa fa-minus'></i></div>";
 	}
@@ -722,45 +750,50 @@ function cria_widget_menor($id_projeto,$metrica1, $metrica2, $metrica3, $metrica
 	$valor_metrica2 = pega_metricas_generico($id_projeto,$metrica2);
 	$valor_metrica3 = pega_metricas_generico($id_projeto,$metrica3);
 	$valor_metrica4 = pega_metricas_generico($id_projeto,$metrica4);
-	$tam_metrica = count($valor_metrica1);
+	 
+	$tam_metrica1 = count($valor_metrica1);
+	$tam_metrica2 = count($valor_metrica2);
+	$tam_metrica3 = count($valor_metrica3);
+	$tam_metrica4 = count($valor_metrica4);
 	
-	// compara_valores($valor_metrica4[$tam_metrica-2],$valor_metrica4[$tam_metrica-1]);
 	// echo "</br>";
-	// echo $valor_metrica4[0]."</br>";
-	// echo $valor_metrica4[1]."</br>";
+	// compara_valores($valor_metrica2[$tam_metrica-2],$valor_metrica2[$tam_metrica-1]);
+	// echo "</br>";
+	// echo $valor_metrica2[0]."</br>";
+	// echo $valor_metrica2[1]."</br>";
 
 	echo "
 	<div class='row'></div>
       <div class='row top_tiles'>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                 <div class='tile-stats'>".                  
-                  compara_valores($valor_metrica1[$tam_metrica-2],$valor_metrica1[$tam_metrica-1])
+                  compara_valores($valor_metrica1[$tam_metrica1-2],end($valor_metrica1))
                   ."<div class='count'>".end($valor_metrica1)."</div>
-                  <h3><font size='4'>$metrica1</font></h3>
+                  <h3><font size='4'><a href='#' data-toggle='tooltip' title='".descricao($metrica1)."' >$metrica1</a></font></h3>
                   <p></p>
                 </div>
               </div>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                 <div class='tile-stats'>".
-                  compara_valores($valor_metrica2[$tam_metrica-2],$valor_metrica2[$tam_metrica-1])
+                  compara_valores($valor_metrica2[$tam_metrica2-2],end($valor_metrica2))
                   ."<div class='count'>".end($valor_metrica2)."</div>
-                  <h3><font size='4'>$metrica2</font></h3>
+                  <h3><font size='4'><a href='#' data-toggle='tooltip' title='".descricao($metrica2)."' >$metrica2</a</font></h3>
                   <p></p>
                 </div>
               </div>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                 <div class='tile-stats'>". 
-                  compara_valores($valor_metrica3[$tam_metrica-2],$valor_metrica3[$tam_metrica-1])
+                  compara_valores($valor_metrica3[$tam_metrica3-2],end($valor_metrica3))
                   ."<div class='count'>".end($valor_metrica3)."</div>
-                  <h3><font size='4'>$metrica3</font></h3>
+                  <h3><font size='4'><a href='#' data-toggle='tooltip' title='".descricao($metrica3)."' >$metrica3</a></font></h3>
                   <p></p>
                 </div>
               </div>
               <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
                 <div class='tile-stats'>".
-                  compara_valores($valor_metrica4[$tam_metrica-2],$valor_metrica4[$tam_metrica-1])
+                  compara_valores($valor_metrica4[$tam_metrica4-2],end($valor_metrica4))
                   ."<div class='count'>".end($valor_metrica4)."</div>
-                  <h3><font size='4'>$metrica4</font></h3>
+                  <h3><font size='4'><a href='#' data-toggle='tooltip' title='".descricao($metrica4)."' >$metrica4</a></font></h3>
                   <p></p>
                 </div>
                 </div>";

@@ -130,6 +130,12 @@ function pega_projetos($id_gestor){
 	$result = $conn->query($sql);
 
 
+	// $date1 = $row['Data_Inicio'];
+	// echo $date1;
+	// $date2 = '2003-10-23';
+	// $days = (strtotime($date2) - strtotime($date1)) / (60 * 60 * 24);
+	// print $days; 
+
 	if($result->num_rows>0){
 		while($row = $result->fetch_assoc()) {
 			echo "<tr>
