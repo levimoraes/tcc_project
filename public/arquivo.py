@@ -28,7 +28,7 @@ dataset={
 							'PERFORMANCE': 1.5,
 							'VULNERABILIDADE':3.0},
 							
-			'Usuario':{'LINHAS_DE_CODIGO': 5,
-							'DUPLICACAO': 5,
-							'CODE_SMELLS': 1} 
+			'Usuario':{'DEBITO_TECNICO': 1.1,
+							'PERFORMANCE': 1.45,
+							'LINHAS_DE_CODIGO': 4.15} 
 			}

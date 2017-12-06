@@ -239,40 +239,10 @@ $projeto_id = $_POST["data"];
       <div class="clearfix"></div>
 
 
-      
-
       <?php
 
-      
-      perfil_exibicao($projeto_id,'Novato');
-
-
-      // cria_widget_menor($projeto_id, $pieces[0], $pieces[1], $pieces[2], $pieces[3]);
-
-      
-
-
-      // pega_metricas_loc($projeto_id);
-
-      // pega_metricas_comentario($projeto_id);
-
-
-
-      // echo "<div class='clearfix'></div>";
-
-      // //pega_metricas_issues(1);
-
-      // pega_metricas_duplicacao($projeto_id);
-
-      // pega_metricas_issues($projeto_id);
-      
-
-      
-
-      // echo "<div class='clearfix'></div>";
-
-
-
+      $array = pega_dados_projeto(1,$projeto_id);
+      perfil_exibicao($projeto_id,$array['Perfil']);
 
       ?>
 
@@ -327,7 +297,7 @@ $projeto_id = $_POST["data"];
 <!-- bootstrap-daterangepicker -->
 <script src="../vendors/moment/min/moment.min.js"></script>
 <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+<script src="../vendors/echarts/dist/echarts.min.js"></script>
 <!-- morris.js -->
 <script src="../vendors/raphael/raphael.min.js"></script>
 <script src="../vendors/morris.js/morris.min.js"></script>

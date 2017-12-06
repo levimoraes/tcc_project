@@ -52,17 +52,17 @@ function descobre_metricas($v){
      	
 } 
 	else if (preg_match("/Excesso/i", $v)) {
-		return "DUPLICACAO,ERROR,SEGURANCA,COMPATIBILIDADE";
+		return "DUPLICACAO,ESTILO_DE_CODIGO,SEGURANCA,COMPATIBILIDADE";
 		
     	
 }
 	else if (preg_match("/Minimo/i", $v)) {
-		return "ERROR,SEGURANCA,CODIGO,DEBITO,ISSUES";
+		return "ESTILO_DE_CODIGO,SEGURANCA,CODIGO,DEBITO,ISSUES";
 		
     	
 }
 	else if (preg_match("/Ingenuo/i", $v)) {
-		return "COMENTARIOS,ERROR,PERFORMANCE,VULNERABILIDADE";
+		return "COMENTARIOS,ESTILO_DE_CODIGO,PERFORMANCE,VULNERABILIDADE";
 		
     	
 }

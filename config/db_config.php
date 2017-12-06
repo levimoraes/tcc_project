@@ -82,7 +82,7 @@ function checa_login($usuario,$senha){
 }
 
 
-function adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$projeto_metricas,$widget,$url_git){
+function adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$projeto_data_fim,$projeto_linguagem,$projeto_metricas,$widget,$url_git,$perfil){
 	
 	$servername = "localhost";
 	$username = "root";
@@ -98,8 +98,8 @@ function adiciona_projeto($projeto_nome,$projeto_desc,$projeto_data_inicio,$proj
 		die("Connection failed: " . $conn->connect_error);
 	}
 
-	$sql = "INSERT INTO Projeto (Nome, Descricao, Gestor, Linguagem, Data_Inicio, Data_Fim, Metricas,Modelo_widget, url_git)
-	VALUES ('$projeto_nome','$projeto_desc', 1 , '$projeto_linguagem', '$projeto_data_inicio', '$projeto_data_fim', '$projeto_metricas',$widget,'$url_git')";
+	$sql = "INSERT INTO Projeto (Nome, Descricao, Gestor, Linguagem, Data_Inicio, Data_Fim, Metricas,Perfil,Modelo_widget, url_git)
+	VALUES ('$projeto_nome','$projeto_desc', 1 , '$projeto_linguagem', '$projeto_data_inicio', '$projeto_data_fim', '$projeto_metricas','$perfil',$widget,'$url_git')";
 
 	if ($conn->query($sql) === TRUE) {
 	} else {
@@ -381,6 +381,7 @@ function pega_dados_projeto($id_gestor,$id_projeto){
 			$array_projeto['Data_Fim'] = $row["Data_Fim"];
 			$array_projeto['Metricas'] = $row["Modelo_widget"];
 			$array_projeto['url_git'] = $row["url_git"];
+			$array_projeto['Perfil'] = $row["Perfil"];
 			
 	}
 

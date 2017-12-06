@@ -52,6 +52,31 @@
 	("DUPLICACAO",2,6,2.1),
 	("DUPLICACAO",2,6,2.2),
 
+	("IM",2,23,1.0),
+	("IM",2,20,1.1),
+	("IM",2,16,1.2),
+	("IM",2,14,1.3),
+	("IM",2,10,2.0),
+
+	("DEBITO_TECNICO",2,1,1.0),
+	("DEBITO_TECNICO",2,3,1.1),
+	("DEBITO_TECNICO",2,3,1.2),
+	("DEBITO_TECNICO",2,5,1.3),
+	("DEBITO_TECNICO",2,10,2.0),
+
+	("BUGS",2,130,1.0),
+	("BUGS",2,160,1.1),
+	("BUGS",2,210,1.2),
+	("BUGS",2,200,1.3),
+	("BUGS",2,220,2.0),
+
+	("CODE_SMELLS",2,30,1.0),
+	("CODE_SMELLS",2,15,1.1),
+	("CODE_SMELLS",2,15,1.2),
+	("CODE_SMELLS",2,25,1.3),
+	("CODE_SMELLS",2,28,2.0),
+
+
 	("Minor",1,5,2.2),
 	("Major",1,2,2.2),
 	("Blocker",1,1,2.2),

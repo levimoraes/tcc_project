@@ -177,6 +177,175 @@ function pega_metricas_loc($id){
 	
 }
 
+function pega_metrica_im($projeto_id){
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $projeto_id && Metrica = 'IM'";
+
+	$result = $conn->query($sql);
+
+	$LOC = array();
+	$LOC_version = array();
+	$number = rand(1,100);
+	$metrica = "Indíce de Manutenabilidade";
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($LOC, $valor);
+			array_push($LOC_version, $versao);
+				
+			}
+
+			criar_grafico(5,$LOC,$LOC_version,$number,$metrica);
+
+		}
+}
+
+
+function pega_metrica_debito($projeto_id){
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $projeto_id && Metrica = 'DEBITO_TECNICO'";
+
+	$result = $conn->query($sql);
+
+	$LOC = array();
+	$LOC_version = array();
+	$number = rand(1,100);
+	$metrica = "DEBITO_TECNICO";
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($LOC, $valor);
+			array_push($LOC_version, $versao);
+				
+			}
+
+			criar_grafico(4,$LOC,$LOC_version,$number,$metrica);
+
+		}
+}
+
+function pega_metrica_bugs($projeto_id){
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $projeto_id && Metrica = 'BUGS'";
+
+	$result = $conn->query($sql);
+
+	$LOC = array();
+	$LOC_version = array();
+	$number = rand(1,100);
+	$metrica = "BUGS";
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($LOC, $valor);
+			array_push($LOC_version, $versao);
+				
+			}
+
+			criar_grafico(4,$LOC,$LOC_version,$number,$metrica);
+
+		}
+}
+
+function pega_metrica_code_smells($projeto_id){
+	$servername = "localhost";
+	$username = "root";
+	$password = "root";
+	$dbname = "dashboard";
+
+	
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+
+	$sql = "SELECT * FROM Metrica WHERE Projeto = $projeto_id && Metrica = 'CODE_SMELLS'";
+
+	$result = $conn->query($sql);
+
+	$LOC = array();
+	$LOC_version = array();
+	$number = rand(1,100);
+	$metrica = "CODE_SMELLS";
+
+
+	if($result->num_rows>0){
+		while($row = $result->fetch_assoc()) {
+			
+			$versao = $row['Versao'];
+			$id = $row['Metrica'];
+			$valor = $row['Valor'];
+
+			array_push($LOC, $valor);
+			array_push($LOC_version, $versao);
+				
+			}
+
+			criar_grafico(4,$LOC,$LOC_version,$number,$metrica);
+
+		}
+}
+
 function pega_metricas_comentario($id){
 
 	$servername = "localhost";
@@ -605,6 +774,43 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
 
               grafico_linha($valor,$versao,$number);
      }
+
+     if ($opcao==5){
+
+     	echo "
+			<div class='col-md-6 col-sm-6 col-xs-12'>
+                <div class='x_panel'>
+                  <div class='x_title'>
+                    <h2><a href='#' data-toggle='tooltip' title='".descricao($metrica)."' >$metrica</a></h2></small></h2>
+                    <ul class='nav navbar-right panel_toolbox'>
+                      <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
+                      </li>
+                      <li class='dropdown'>
+                        <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'><i class='fa fa-wrench'></i></a>
+                        <ul class='dropdown-menu' role='menu'>
+                          <li><a href='#'>Settings 1</a>
+                          </li>
+                          <li><a href='#'>Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class='close-link'><i class='fa fa-close'></i></a>
+                      </li>
+                    </ul>
+                    <div class='clearfix'></div>
+                  </div>
+                  <div class='x_content'>
+                     <div id='echart_gauge' style='height:280px;'></div>
+                  </div>
+                </div>
+              </div>
+
+
+				
+              ";
+
+              grafico_gauge($valor,$number);
+     }
 	
 }
 
@@ -728,6 +934,38 @@ function grafico_linha($valor,$versao,$number){
 			  	</script>	";
 }
 
+function grafico_gauge($valor,$number){
+	echo"
+	<script type'text/javascript'>
+    google.charts.load('current', {'packages':['gauge']});
+    google.charts.setOnLoadCallback(drawGauge);
+
+    var gaugeOptions = {min: 0, max: 280, yellowFrom: 200, yellowTo: 250,
+      redFrom: 250, redTo: 280, minorTicks: 5};
+    var gauge;
+
+    function drawGauge() {
+      gaugeData = new google.visualization.DataTable();
+      gaugeData.addColumn('number', 'Engine');
+      gaugeData.addColumn('number', 'Torpedo');
+      gaugeData.addRows(2);
+      gaugeData.setCell(0, 0, 120);
+      gaugeData.setCell(0, 1, 80);
+
+      gauge = new google.visualization.Gauge(document.getElementById('gauge_div'));
+      gauge.draw(gaugeData, gaugeOptions);
+    }
+
+    function changeTemp(dir) {
+      gaugeData.setValue(0, 0, gaugeData.getValue(0, 0) + dir * 25);
+      gaugeData.setValue(0, 1, gaugeData.getValue(0, 1) + dir * 20);
+      gauge.draw(gaugeData, gaugeOptions);
+    }
+  </script>
+	";
+
+}
+
 function compara_valores($valor_ant,$valor_novo){
 	if($valor_ant > $valor_novo){
 		//echo "MAIOR ANTERIOR";
@@ -798,6 +1036,7 @@ function cria_widget_menor($id_projeto,$metrica1, $metrica2, $metrica3, $metrica
                 </div>
                 </div>";
 }
+
 
 
 

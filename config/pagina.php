@@ -8,15 +8,15 @@
      	$escreve = "<b>Perfil :</b> Novato </br></br> <b>Metricas Recomendadas:</b> $metricas";
 } 
 	else if (preg_match("/Excesso/i", $v)) {
-		$metricas = "DUPLICACAO,ERROR,SEGURANCA,COMPATIBILIDADE";
+		$metricas = "DUPLICACAO,ESTILO_DE_CODIGO,SEGURANCA,COMPATIBILIDADE";
     	$escreve = "<b>Perfil :</b> Excesso </br></br><b> Metricas Recomendadas:</b> $metricas";
 }
 	else if (preg_match("/Minimo/i", $v)) {
-		$metricas = "ERROR,SEGURANCA,CODIGO,DEBITO,ISSUES";
+		$metricas = "ESTILO_DE_CODIGO,SEGURANCA,CODIGO,DEBITO,ISSUES";
     	$escreve = "<b>Perfil :</b> Minimo </br></br> <b>Metricas Recomendadas:</b> $metricas";
 }
 	else if (preg_match("/Ingenuo/i", $v)) {
-		$metricas = "COMENTARIO,ERROR,PERFORMANCE,VULNERABILIDADE";
+		$metricas = "COMENTARIO,ESTILO_DE_CODIGO,PERFORMANCE,VULNERABILIDADE";
     	$escreve = "<b>Perfil :</b> Ingenuo </br></br><b> Metricas Recomendadas:</b> $metricas";
 }
 

@@ -3197,7 +3197,7 @@ if (typeof NProgress != 'undefined') {
 				  }
 				},
 				series: [{
-				  name: 'Performance',
+				  name: 'DATA',
 				  type: 'gauge',
 				  center: ['50%', '50%'],
 				  startAngle: 140,
@@ -3286,7 +3286,7 @@ if (typeof NProgress != 'undefined') {
 				  },
 				  data: [{
 					value: 50,
-					name: 'Performance'
+					name: 'IM'
 				  }]
 				}]
 			  });

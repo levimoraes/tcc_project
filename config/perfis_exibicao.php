@@ -14,13 +14,19 @@ function perfil_exibicao($projeto_id,$perfil){
 		if($perfil == 'Excesso'){
 
 			cria_widget_menor($projeto_id, $pieces[0], $pieces[1], $pieces[2], $pieces[3]);
-			pega_metricas_loc($projeto_id);
+			
+			pega_metrica_im($projeto_id);
 			pega_metricas_comentario($projeto_id);
 		    echo "<div class='clearfix'></div>";
       		pega_metricas_duplicacao($projeto_id);
       		pega_metricas_issues($projeto_id);
       		echo "<div class='clearfix'></div>";
-      		
+      		pega_metrica_debito($projeto_id);
+      		pega_metricas_loc($projeto_id);
+      		echo "<div class='clearfix'></div>";
+      		pega_metrica_bugs($projeto_id);
+      		pega_metrica_code_smells($projeto_id);
+      		echo "<div class='clearfix'></div>";
 
 		}
 
@@ -32,6 +38,34 @@ function perfil_exibicao($projeto_id,$perfil){
 		    echo "<div class='clearfix'></div>";
       		pega_metricas_duplicacao($projeto_id);
       		pega_metricas_issues($projeto_id);
+      		echo "<div class='clearfix'></div>";
+
+		}
+
+		else if($perfil == 'Minimo'){
+
+			cria_widget_menor($projeto_id, $pieces[0], $pieces[1], $pieces[2], $pieces[3]);
+			
+			pega_metricas_loc($projeto_id);
+			pega_metricas_comentario($projeto_id);
+		    echo "<div class='clearfix'></div>";
+      		pega_metricas_duplicacao($projeto_id);
+      		pega_metricas_issues($projeto_id);
+      		echo "<div class='clearfix'></div>";
+
+		}
+
+		else if($perfil == 'Ingenuo'){
+
+			cria_widget_menor($projeto_id, $pieces[0], $pieces[1], $pieces[2], $pieces[3]);
+			pega_metrica_im($projeto_id);
+			pega_metricas_loc($projeto_id);
+		    echo "<div class='clearfix'></div>";
+      		pega_metricas_issues($projeto_id);
+      		pega_metricas_duplicacao($projeto_id);
+      		echo "<div class='clearfix'></div>";
+      		pega_metrica_code_smells($projeto_id);
+      		pega_metrica_bugs($projeto_id);
       		echo "<div class='clearfix'></div>";
 
 		}
