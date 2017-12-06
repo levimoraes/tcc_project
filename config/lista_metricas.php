@@ -176,9 +176,9 @@ function pega_metricas_comentario($id){
 
 			}
 
-			criar_grafico(2,$Comentario,$Comentario_version,$number,$metrica);
+			 criar_grafico(1,$Comentario,$Comentario_version,$number,$metrica);
 
-		}
+}
 
 	
 }
@@ -419,9 +419,9 @@ function pega_metricas_duplicacao($id){
 				
 			}
 
-			criar_grafico(1,$Duplicacao,$Duplicacao_version,$number,$metrica);
+			 criar_grafico(1,$Duplicacao,$Duplicacao_version,$number,$metrica);
 
-		}
+	}
 
 	
 }
@@ -430,11 +430,12 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
 	
 	//GRAFICO BARRA
 	if($opcao==1){
-		echo"<!-- bar chart -->
-              <div class='col-md-6 col-sm-6 col-xs-12'>
+		echo"
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js'></script>
+		<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' >$metrica</a></h2>
+                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' > ?</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -453,24 +454,25 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
                     <div class='clearfix'></div>
                   </div>
                   <div class='x_content'>
-                    <div id='graph_bar$number' style='width:100%; height:280px;'></div>
+                    <canvas class='myChart$number'></canvas>
                   </div>
                 </div>
               </div>
-              <!-- /bar charts -->
-              ";
+             ";
+              
+             grafico_barras($valor,$versao,$number);
 
-              grafico_barras($valor,$versao,$number);
+
 
      }
      
-     //GRAFICO BARRA GRUPO
+     //GRAFICO RADAR
      if ($opcao==2) {
      	echo "
      	<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2><a href='#' data-toggle='tooltip' title='" ; echo descricao($metrica); echo "' >$metrica</a></h2>
+                    <h2>Radar <small>Sessions</small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -488,8 +490,8 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
                     </ul>
                     <div class='clearfix'></div>
                   </div>
-                  <div class='x_content1'>
-                    <div id='graph_bar_group$number' style='width:100%; height:280px;'></div>
+                  <div class='x_content'>
+                    <canvas id='canvasRadar'></canvas>
                   </div>
                 </div>
               </div>
@@ -504,7 +506,7 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
      	echo"<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' >$metrica</a></small></h2>
+                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' > ?</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -522,11 +524,11 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
                     </ul>
                     <div class='clearfix'></div>
                   </div>
-                  <div class='x_content2'>
-                    <div id='graph_donut$number' style='width:100%; height:300px;'></div>
+                  <div class='x_content'>
+                    <canvas class='pieChart$number' style='width:100%; height:220px; '></canvas>
                   </div>
                 </div>
-              </div> 
+              </div>
              ";
 
               grafico_pizza($valor,$versao,$number);
@@ -539,7 +541,7 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
      	echo "<div class='col-md-6 col-sm-6 col-xs-12'>
                 <div class='x_panel'>
                   <div class='x_title'>
-                    <h2><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' >$metrica</a></small></h2>
+                    <h2>$metrica <small><a href='#' data-toggle='tooltip' title=' " ; echo descricao($metrica); echo "' > ?</a></small></h2>
                     <ul class='nav navbar-right panel_toolbox'>
                       <li><a class='collapse-link'><i class='fa fa-chevron-up'></i></a>
                       </li>
@@ -557,9 +559,8 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
                     </ul>
                     <div class='clearfix'></div>
                   </div>
-                  <div class='x_content2'>
-                  	<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
-  						<div id='curve_chart'></div>
+                  <div class='x_content'>
+                    <canvas class='lineChart$number'></canvas>
                   </div>
                 </div>
               </div>
@@ -576,100 +577,157 @@ function criar_grafico($opcao,$valor,$versao,$number,$metrica){
 
 
 function grafico_barras($valor,$versao,$number){
-	echo "<script type='text/javascript'>
-	Morris.Bar({
-		element: 'graph_bar$number',
-		data: [
-		";
+	echo "<script>
+var ctx = document.getElementsByClassName('myChart$number');
+        var mybarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: [
+        "; 
 
-		for($i=0; $i<count($versao);$i++){
-			echo "{versao: '$versao[$i]', linhas: $valor[$i]},";
+        for($i=0; $i<count($versao);$i++){
+			echo "'$versao[$i]',";
+		}
+          
+          echo "],
+          datasets: [{
+          label: '%',
+          backgroundColor: '#26B99A',
+          data: [
+          ";
+
+
+        for($i=0; $i<count($versao);$i++){
+			echo "'$valor[$i]',";
 		}
 
-		echo "],
-		xkey: 'versao',
-		ykeys: ['linhas'],
-		labels: ['linhas'],
-		barRatio: 0.4,
-		barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
-		xLabelAngle: 35,
-		hideHover: 'auto',
-		resize: true
-	});
+          echo "]
+          },]
+        },
+
+        options: {
+          scales: {
+          yAxes: [{
+            ticks: {
+            beginAtZero: true
+            }
+          }]
+          }
+        }
+        });
 </script>";
 
 }
 
 function grafico_barras_grupo($valor,$versao,$number){
 	echo "<script type='text/javascript'>
-	Morris.Bar({
-		element: 'graph_bar_group$number',
-		data: [";
-		for($i=0; $i<count($versao);$i++){
-			echo "{versao: '$versao[$i]', 'valor': '$valor[$i]', 'sorned': 0},";
-		}		
-		echo "],
-		xkey: 'versao',
-		
-		ykeys: ['valor'],
-		labels: ['Comentario'],
-		hideHover: 'auto',
-		xLabelAngle: 60,
-		resize: true
-	});
+	var ctx = document.getElementById('mybarChart1');
+			  var mybarChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+				  labels: ['Jan', 'Feb', 'Mar', 'Ap', 'May', 'June', 'July'],
+				  datasets: [{
+					label: '# of Votes',
+					backgroundColor: '#26B99A',
+					data: [51, 30, 40, 28, 92, 50, 45]
+				  }, {
+					label: '# of Votes',
+					backgroundColor: '#03586A',
+					data: [41, 56, 25, 48, 72, 34, 12]
+				  }]
+				},
+
+				options: {
+				  scales: {
+					yAxes: [{
+					  ticks: {
+						beginAtZero: true
+					  }
+					}]
+				  }
+				}
+			  });
 </script>";
 
 }
 
 function grafico_pizza($valor,$versao,$number){
 	echo "<script type='text/javascript'>
-	Morris.Donut({
-				  element: 'graph_donut$number',
-				  data: [
-					{label: 'Major', value:"; echo $valor['major']['2.2']; echo "},
-					{label: 'Minor', value:"; echo $valor['minor']['2.2']; echo "},
-					{label: 'Blocker', value:"; echo $valor['blocker']['2.2']; echo "},
-					{label: 'Info', value:"; echo $valor['info']['2.2']; echo "},
-				  ],
-				  colors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
-				  
-				  resize: true
-				});
+	var ctx = document.getElementsByClassName('pieChart$number');
+				  var data = {
+					datasets: [{
+					  data: [" .$valor['major']['2.2']."," .$valor['minor']['2.2'].", " .$valor['blocker']['2.2'].", " .$valor['info']['2.2']."],
+
+
+
+
+
+					  backgroundColor: [
+						'#455C73',
+						'#9B59B6',
+						'#BDC3C7',
+						'#26B99A',
+						'#3498DB'
+					  ],
+					  label: 'My dataset' // for legend
+					}],
+					labels: [
+					  'Major',
+					  'Minor',
+					  'Blocker',
+					  'Info'
+					]
+				  };
+
+				  var pieChart = new Chart(ctx, {
+					data: data,
+					type: 'pie',
+					otpions: {
+					  legend: false
+					}
+				  });
 				</script>";
 }
 
 function grafico_linha($valor,$versao,$number){
 
-echo "<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
-    <script type='text/javascript'>
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+echo "
+	<script>
+	var ctx = document.getElementsByClassName('lineChart$number');
+			  var lineChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+				  labels: [
+				  "; 
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Versao', 'Linhas'],";
-          
         for($i=0; $i<count($versao);$i++){
-			echo "[ $versao[$i], $valor[$i] ],";
-		}	
-
-        echo "]);
-
-        var options = {
-          pointSize: 3,
-		  colors: ['#26B99A','#34495E', '#ACADAC', '#3498DB'],        
-          title: 'Número de Linhas',
-          curveType: 'function',
-          legend: { position: 'top' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-      }
+			echo "'$versao[$i]',";
+		}
+          
+          echo "],
+				  datasets: [{
+					label: 'Linhas',
+					backgroundColor: 'rgba(38, 185, 154, 0.31)',
+					borderColor: 'rgba(38, 185, 154, 0.7)',
+					pointBorderColor: 'rgba(38, 185, 154, 0.7)',
+					pointBackgroundColor: 'rgba(38, 185, 154, 0.7)',
+					pointHoverBackgroundColor: '#fff',
+					pointHoverBorderColor: 'rgba(220,220,220,1)',
+					pointBorderWidth: 1,
+					data: [
+			          ";
 
 
-      </script>";			
+			        for($i=0; $i<count($versao);$i++){
+						echo "'$valor[$i]',";
+					}
+
+			          echo "]
+				  }, ]
+				},
+			  });
+
+			  	</script>	";
 }
 
 function compara_valores($valor_ant,$valor_novo){
@@ -695,40 +753,7 @@ function cria_widget_menor($id_projeto,$metrica1, $metrica2, $metrica3, $metrica
 	$tam_metrica1 = count($valor_metrica1);
 
 
-	echo "<div class='row'></div>
-      <div class='row top_tiles'>
-              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>".
-                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
-                  ."<div class='count'>".end($valor_metrica1)."</div>
-                  <h3><font size='4'>$metrica1</font></h3>
-                  <p></p>
-                </div>
-              </div>
-              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>".
-                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
-                  ."<div class='count'>".end($valor_metrica2)."</div>
-                  <h3><font size='4'>$metrica2</font></h3>
-                  <p></p>
-                </div>
-              </div>
-              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>".
-                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
-                  ."<div class='count'>".end($valor_metrica3)."</div>
-                  <h3><font size='4'>$metrica3</font></h3>
-                  <p></p>
-                </div>
-              </div>
-              <div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>
-                <div class='tile-stats'>".
-                  compara_valores($valor_metrica1[$tam_metrica1-2],$valor_metrica1[$tam_metrica1-1])
-                  ."<div class='count'>".end($valor_metrica4)."</div>
-                  <h3><font size='4'>$metrica4</font></h3>
-                  <p></p>
-                </div>
-                </div>";
+
 }
 
 

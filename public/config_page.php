@@ -212,7 +212,7 @@ include '../config/lista_metricas.php';
           <div class="x_content">
             <div class="page-title">
               <div class="title_left">
-                <h3>Formulário de Cadastro</h3>
+                <h3>Página de Configurações</h3>
               </div>
 
               <div class="clearfix"></div>
@@ -242,129 +242,24 @@ include '../config/lista_metricas.php';
                     <br />
                     <form class="form-horizontal form-label-left" action="adiciona_projeto.php" method="post">
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nome do Projeto</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" class="form-control" placeholder="Qual o nome do Projeto ?" id="nome_projeto" name="nome_projeto">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Descrição do Projeto <span class="required"></span>
-                        </label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                          <textarea class="form-control" rows="3" name="projeto_desc" placeholder='Diga um pouco sobre o projeto'></textarea>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Data de Início <span class="required"></span>
-                        </label>
-                        <div class='input-group date' id='myDatepicker2'>
-                          <input type='text' name="projeto_data_inicio" class="form-control" />
-                          <span class="input-group-addon" name="projeto_data_inicio" >
-                           <span class="glyphicon glyphicon-calendar" name="projeto_data_inicio"></span>
-                         </span>
-                       </div>
-                     </div>
                      <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Data de Fim <span class="required"></span>
-                      </label>
-                      <div class='input-group date' id='myDatepicker3'>
-                        <input type='text' name="projeto_data_fim" class="form-control" />
-                        <span class="input-group-addon">
-                         <span class="glyphicon glyphicon-calendar"></span>
-                       </span>
-                     </div>
-                   </div>
-
-                   <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Linguagem</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <select class="form-control" name="linguagem" id="linguagem">
-                        <option value="java">JAVA</option>
-                        <option value="php">PHP</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div class="form-group">
-                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">De Acordo com o seu projeto defina um grau de importancia para as seguintes metricas    (0- Irrelevante e 100-Muito Relevante)</label>
-
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      
-                      <?php
-
-                      for ($i=0; $i<4 ; $i++) { 
-                        $metrica[$i] = sorteia_metrica();
-                        if ($i > 0) {
-                          if ($metrica[$i] == $metrica[$i-1]) {
-                            $metrica[$i] = sorteia_metrica();
-                          }
-
-                          echo " <p>$metrica[$i]</p>
-                          <input type='hidden' name='metrica_$i' id='metrica_$i' value='$metrica[$i]'>  
-                          <input class='knob' data-width='100' data-height='120' data-min='0' data-displayPrevious=true data-fgColor='#26B99A' value='0' id='valor_$i' name='valor_$i'>";
-                        }
-                      }
-
-                      ?>
-                    </div>
-
-                        </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> URL GitHub  <span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nome da Ferramenta <span class="required"></span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <textarea class="form-control" rows="3" name="url_gitHub" placeholder='Digite a url da página GitHub do Projeto'></textarea>
+                          <input type="text" class="form-control" placeholder="Digite o nome da Ferramenta" id="nome_projeto" name="nome_projeto">
                         </div>
                       </div>
-                      
-                      <div class="clearfix"></div>
 
                       <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Modelo de Widget</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <select class="form-control" name="widget" id="widget">
-                        <option value=1>Widget 1</option>
-                        <option value=2>Widget 2</option>
-                        <option value=3>Widget 3</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="clearfix"></div>
-
-                      <div class="col-md-3 col-sm-3 col-xs-12">
-                          <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="images/widget_1.png" alt="image" />
-                            
-                          </div>
-                          <div class="caption">
-                            <p>Widget 1</p>
-                          </div>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Adicionar nova Ferramenta:</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+                        </div>
                       </div>
 
-                      <div class="col-md-3 col-sm-3 col-xs-12">
-                          <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="images/widget_2.png" alt="image" />
-                            
-                          </div>
-                          <div class="caption">
-                            <p>Widget 2</p>
-                          </div>
-                      </div>
+                      
 
-                      <div class="col-md-3 col-sm-3 col-xs-12">
-                          <div class="image view view-first">
-                            <img style="width: 100%; display: block;" src="images/widget_3.png" alt="image" />
-                            
-                          </div>
-                          <div class="caption">
-                            <p>Widget 3</p>
-                          </div>
-                      </div>
+                      
 
                       </div>
                       <div class="ln_solid"></div>

@@ -2207,7 +2207,7 @@ if (typeof NProgress != 'undefined') {
 			  var mybarChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
-				  labels: ["January", "February", "March", "April", "May", "June", "July"],
+				  labels: ["Jan", "Febr", "March", "April", "May", "June", "July"],
 				  datasets: [{
 					label: '# of Votes',
 					backgroundColor: "#26B99A",
@@ -2316,7 +2316,7 @@ if (typeof NProgress != 'undefined') {
 				  var ctx = document.getElementById("pieChart");
 				  var data = {
 					datasets: [{
-					  data: [120, 50, 140, 180, 100],
+					  data: [50, 50, 50, 180, 100],
 					  backgroundColor: [
 						"#455C73",
 						"#9B59B6",

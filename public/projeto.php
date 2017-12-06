@@ -18,6 +18,7 @@ $projeto_id = $_POST["data"];
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <!-- Meta, title, CSS, favicons, etc. -->
   <meta charset="utf-8">
@@ -262,10 +263,12 @@ $projeto_id = $_POST["data"];
 
       ?>
 
-      
-      <a href= "https://github.com/levimoraes/tcc_project "><img src="images/git_logo.png" width="70px" height="70px"></a>
-      <img src="images/sonar_logo.png" width="140px" height="80px">
 
+
+      
+      <!-- <a href= "https://github.com/levimoraes/tcc_project "><img src="images/git_logo.png" width="70px" height="70px"></a>
+      <img src="images/sonar_logo.png" width="140px" height="80px">
+ -->
     </div>
   </div>
 </div>
@@ -302,6 +305,9 @@ $projeto_id = $_POST["data"];
 </script>
 
 <!-- JQVMap -->
+
+
+
 <script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
 <script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 <script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>

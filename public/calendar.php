@@ -69,6 +69,7 @@
                     </ul>
                   </li>
                   <li><a href="calendar.php"  ><i class="glyphicon glyphicon-calendar"></i> Calendario </span></a>
+                  <li><a href="config_page.php"  ><i class="glyphicon glyphicon-cog"></i> Configurações </span></a>
                 </ul>  
               </div>
 
